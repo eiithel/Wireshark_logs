@@ -28,7 +28,7 @@ public:
     int extract_seqNumber(QString line);
     double extract_time(QString line);
     double compute_time(double time1, double time2);
-    void compare();
+    QList<double> getDurationList();
 
     //private:
     QVector<element> tab_els;

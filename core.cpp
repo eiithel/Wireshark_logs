@@ -49,26 +49,30 @@ double Core::extract_time(QString line){
 }
 
 double Core::compute_time(double time1, double time2){
+    double result;
 
-    double result = time1-time2;
+    if(time1 > time2){
+        result = time1-time2;
+    }else{
+        result = time2-time1;
+    }
+
     return result;
-
 }
 
-void Core::compare(){
+QList<double> Core::getDurationList(){
 
     int size=_mmap.size();
 
     _mmap.values();//si une clé est associée avec +sieurs valeurs valeurs, elles seront toutes dans la liste (a tester)
 
-    QList<int> List_seqNumber;
     QList<double> timer = _mmap.values();
     QList<double> durations;
-    if(timer.empty())
-        return;
+    //    if(timer.empty())
+    //        return; utiliser une exception a la place
+
     timer.removeFirst();//on enleve le descriptif du fichier csv.
 
-    List_seqNumber = _mmap.uniqueKeys();
 
     int size_max= timer.size() -1;
 
@@ -77,5 +81,6 @@ void Core::compare(){
         durations.push_back(res);
         i++;
     }
+    return durations;
 
 }

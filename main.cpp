@@ -25,14 +25,21 @@ int main(int argc, char *argv[])
     {
         QByteArray line = file.readLine();
         core.process_line(QString(line));// vient stocker els dans tableau
+    }
 
+    QList<double> durations;
 
+    durations = core.getDurationList();// va associer les els avec meme id et calculer duration, rend un fichier .csv
+
+    //affichage des durées calculées sur la console
+    qDebug() << "durees calculees:";
+
+    for(int i=0; i< durations.size();i++){
+        qDebug() << durations[i];
+
+    file.close();
 
     }
-    //une fois qu'on a rempli le tableau. On compare les structures
 
-    qDebug() << "taille du tableau" << core.tab_els.size();
-    core.compare();// va associer les els avec meme id et calculer duration, rend un fichier .csv
-    file.close();
     return a.exec();
 }
