@@ -10,15 +10,6 @@
 #define DEBUG   true
 
 
-typedef struct {
-    int seqNumber;
-    int time;
-
-}element;
-
-
-
-
 class Core
 {
 public:
@@ -27,14 +18,24 @@ public:
     void process_line(QString line);
     int extract_seqNumber(QString line);
     double extract_time(QString line);
-    double compute_delay(double time1, double time2);
+    double compute_delay(double time1, double time2);//pb on se base sur les n° de séquence pour reconnaître un paquet mais il faudrait aussi vérifier que src <==> dst
     QList<double> getDelayList();
 
+    double getJitter(QList<double> delays);//Get Jitter.
+    double getAvgRTT(QList<double> delays); //Get Average Round Trip Time
+
+    double maxDelaySD(QList<double> delays);//Retard maximum de la source à la destination (en secondes).
+
+    double maxDelayDS(QList<double> delays);//Retard maximum de la destination à la source (en secondes).
+
+
+
+
+
     //private:
-    QVector<element> tab_els;
     QMap<int, double> _map;//key seqNumber, value time
     QMap<int, double> _resmap;
-    QMultiMap<int, double> _mmap;//utilisation d'un multimap à la place de map (plusieurs key identiques)
+    QMultiMap<int, double> _mmap;//utilisation d'un multimap à la place de map (plusieurs keys identiques)
 
 };
 

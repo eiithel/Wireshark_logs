@@ -36,10 +36,12 @@ int main(int argc, char *argv[])
 
     for(int i=0; i< durations.size();i++){
         qDebug() << durations[i];
+    }
+
+    qDebug() << "\nDelay moyen:";
+    qDebug() << core.getAvgRTT(durations);
 
     file.close();
-
-    }
 
     return a.exec();
 }
