@@ -14,7 +14,8 @@ SOURCES += main.cpp \
     core.cpp
 
 DISTFILES += \
-    tcp1
+    tcp1 \
+    fortune
 
 HEADERS += \
     core.h

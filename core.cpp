@@ -11,12 +11,10 @@ Core::Core()
 
 /*
  *Cette fonction vient lire chaque ligne et extrait seqNumber
- *et time pour chaque trame. Elle stocke cette info dans un tableau de structures.
+ *et time pour chaque trame. Elle stocke cette info dans une mmap.
  */
 void Core::process_line(QString line){
 
-    //_map.insert(extract_seqNumber(line), extract_time(line));
-    //attention pb, si jamais la clé est la même il supprime l'ancienne valeur.
     _mmap.insert(extract_seqNumber(line),extract_time(line));
 
 }
@@ -48,7 +46,7 @@ double Core::extract_time(QString line){
     return time;
 }
 
-double Core::compute_time(double time1, double time2){
+double Core::compute_delay(double time1, double time2){
     double result;
 
     if(time1 > time2){
@@ -60,7 +58,7 @@ double Core::compute_time(double time1, double time2){
     return result;
 }
 
-QList<double> Core::getDurationList(){
+QList<double> Core::getDelayList(){
 
     int size=_mmap.size();
 
@@ -77,7 +75,7 @@ QList<double> Core::getDurationList(){
     int size_max= timer.size() -1;
 
     for (int i=0; i< size_max; i++){
-        double res = compute_time(timer.at(i), timer.at((i+1)));
+        double res = compute_delay(timer.at(i), timer.at((i+1)));
         durations.push_back(res);
         i++;
     }

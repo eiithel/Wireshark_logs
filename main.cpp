@@ -17,22 +17,22 @@ int main(int argc, char *argv[])
 
     Core core;
     QFile file;
-    file.setFileName("/home/ethel/qwt-5.2/test-ethel/wireshark/tcp1");
+    file.setFileName("/home/ethel/qwt-5.2/test-ethel/wireshark/fortune");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return 0;
 
     while (!file.atEnd())
     {
         QByteArray line = file.readLine();
-        core.process_line(QString(line));// vient stocker els dans tableau
+        core.process_line(QString(line));
     }
 
     QList<double> durations;
 
-    durations = core.getDurationList();// va associer les els avec meme id et calculer duration, rend un fichier .csv
+    durations = core.getDelayList();
 
-    //affichage des durées calculées sur la console
-    qDebug() << "durees calculees:";
+    //affichage des delays calculés sur la console
+    qDebug() << "retards calculees:\n";
 
     for(int i=0; i< durations.size();i++){
         qDebug() << durations[i];
