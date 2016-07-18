@@ -43,7 +43,6 @@ double Core::extract_time(QString line){
     if((pos = line.indexOf(",")) > -1)
     {
         time = line.mid(pos+2,12).toDouble();
-
     }
 
     return time;
@@ -63,17 +62,12 @@ double Core::compute_delay(double time1, double time2){
 
 QList<double> Core::getDelayList(){
 
-    int size=_mmap.size();
-
     _mmap.values();//si une clé est associée avec +sieurs valeurs valeurs, elles seront toutes dans la liste (a tester)
 
     QList<double> timer = _mmap.values();
     QList<double> durations;
-    //    if(timer.empty())
-    //        return; utiliser une exception a la place
 
     timer.removeFirst();//on enleve le descriptif du fichier csv.
-
 
     int size_max= timer.size() -1;
 

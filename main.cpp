@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 
     Core core;
     QFile file;
-    file.setFileName("/home/ethel/qwt-5.2/test-ethel/wireshark/fortune");
+    file.setFileName("/home/ethel/qwt-5.2/test-ethel/wireshark/data");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return 0;
 
@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 
 #endif
 
-    core.report(jitter, avgRTT);// save statistics to a .csv file
+    core.report(jitter, avgRTT);// save statistics to a "report.csv" file
 
     file.close();
 
