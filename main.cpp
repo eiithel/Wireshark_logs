@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     qDebug() << "\n Jitter:";
     qDebug() << jitter;
 
-    core.Report(jitter, avgRTT);// save statistics to a .csv file
+    core.report(jitter, avgRTT);// save statistics to a .csv file
 
     file.close();
 

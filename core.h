@@ -8,6 +8,7 @@
 #include <QMultiMap>
 
 #define DEBUG   true
+#define FIRST_TEST false //indique que c'est le début de l'analyse statistique.
 
 
 class Core
@@ -28,7 +29,7 @@ public:
 
     double maxDelayDS(QList<double> delays);//Retard maximum de la destination à la source (en secondes).
 
-    void Report(double Jitter, double AvgRTT);// Append the report of the session to a .csv file.
+    void report(double Jitter, double AvgRTT);// Append the report of the session to a .csv file.
 
 
     //private:

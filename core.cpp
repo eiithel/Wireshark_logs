@@ -112,19 +112,18 @@ double Core::maxDelayDS(QList<double> delays){
 
 }
 
-void Core::Report(double Jitter, double AvgRTT){
+void Core::report(double Jitter, double AvgRTT){
     QFile outfile(QString("/home/ethel/qwt-5.2/test-ethel/wireshark/report.csv"));
 
-    if (!outfile.open(QIODevice::WriteOnly | QIODevice::Text))
+    if (!outfile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
     {
         qDebug() << "Unable to create file";
-
         return;
     }
+
+#if FIRST_TEST
     outfile.write("Jitter,AvgRTT\n");
-    //    outfile.write(QString(Jitter));
-    //    outfile.write(",");
-    //    outfile.write(QString(AvgRTT));
+#endif
     QTextStream stream(&outfile);
     stream << Jitter << "," << AvgRTT << "\n";
 
