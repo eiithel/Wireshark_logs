@@ -38,10 +38,15 @@ int main(int argc, char *argv[])
         qDebug() << durations[i];
     }
 
+    double jitter = core.getJitter(durations);
+    double avgRTT = core.getAvgRTT(durations);
+
     qDebug() << "\nDelay moyen:";
-    qDebug() << core.getAvgRTT(durations);
+    qDebug() << avgRTT;
     qDebug() << "\n Jitter:";
-    qDebug() << core.getJitter(durations);
+    qDebug() << jitter;
+
+    core.Report(jitter, avgRTT);// save statistics to a .csv file
 
     file.close();
 

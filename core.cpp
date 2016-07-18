@@ -4,6 +4,8 @@
 #include <QVectorIterator>
 #include <QList>
 #include <QtMath>
+#include <QDebug>
+#include <QTextStream>
 
 Core::Core()
 {
@@ -108,4 +110,23 @@ double Core::maxDelaySD(QList<double> delays){
 
 double Core::maxDelayDS(QList<double> delays){
 
+}
+
+void Core::Report(double Jitter, double AvgRTT){
+    QFile outfile(QString("/home/ethel/qwt-5.2/test-ethel/wireshark/report.csv"));
+
+    if (!outfile.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        qDebug() << "Unable to create file";
+
+        return;
+    }
+    outfile.write("Jitter,AvgRTT\n");
+    //    outfile.write(QString(Jitter));
+    //    outfile.write(",");
+    //    outfile.write(QString(AvgRTT));
+    QTextStream stream(&outfile);
+    stream << Jitter << "," << AvgRTT << "\n";
+
+    outfile.close();
 }

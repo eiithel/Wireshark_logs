@@ -28,8 +28,7 @@ public:
 
     double maxDelayDS(QList<double> delays);//Retard maximum de la destination à la source (en secondes).
 
-
-
+    void Report(double Jitter, double AvgRTT);// Append the report of the session to a .csv file.
 
 
     //private:
