@@ -40,6 +40,8 @@ int main(int argc, char *argv[])
 
     qDebug() << "\nDelay moyen:";
     qDebug() << core.getAvgRTT(durations);
+    qDebug() << "\n Jitter:";
+    qDebug() << core.getJitter(durations);
 
     file.close();
 

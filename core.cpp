@@ -85,15 +85,22 @@ QList<double> Core::getDelayList(){
 }
 
 
-double Core::getJitter(QList<double> delays){
-}
-
 double Core::getAvgRTT(QList<double> delays){
     double sum = 0.0;
     for(double a : delays)
         sum += a;
     return sum/delays.size();
 }
+
+double Core::getJitter(QList<double> delays){
+    double mean = getAvgRTT(delays);
+    double temp = 0;
+    for(double a :delays)
+        temp += (mean-a)*(mean-a);
+    return temp/delays.size();
+
+}
+
 
 double Core::maxDelaySD(QList<double> delays){
 
