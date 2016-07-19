@@ -22,6 +22,8 @@ void Core::process_line(QString line){
 
     _mmap.insert(extractRTT(line),extract_time(line));
 
+    _RTTlist.append(extractRTT(line));
+
 }
 
 int Core::extract_seqNumber(QString line){
@@ -60,7 +62,6 @@ double Core::extractRTTi(QString line){
     //to implement later
 
 }
-
 
 
 double Core::extractRTT(QString line){
@@ -113,20 +114,32 @@ QList<double> Core::getDelayList(){
 }
 
 
-double Core::getAvgRTT(QList<double> delays){
+double Core::getAvgRTT(QList<double> RTT){
     double sum = 0.0;
-    for(double a : delays)
+    for(double a : RTT)
         sum += a;
-    return sum/delays.size();
+    return sum/RTT.size();
 }
 
-double Core::getJitter(QList<double> delays){
-    double mean = getAvgRTT(delays);
-    double temp = 0;
-    for(double a :delays)
-        temp += (mean-a)*(mean-a);
-    return temp/delays.size();
+double Core::getJitter(QList<double> RTT){
 
+    double mean = getAvgRTT(RTT);
+    double temp = 0;
+    for(double a :RTT)
+        temp += (mean-a)*(mean-a);
+    temp /=RTT.size();
+    return temp/2; //variance RTT/2 pour avoir jitter
+}
+
+double Core::getAvgDelay(QList<double> RTT){
+
+    double mean = getAvgRTT(RTT);
+    mean /=2; //on divise RTT par 2 pour avoir la latence
+    return mean;
+}
+
+QList<double> Core::getRTTlist(){
+    return _RTTlist;
 }
 
 
@@ -154,6 +167,17 @@ void Core::report(double Jitter, double AvgRTT){
     stream << Jitter << "," << AvgRTT << "\n";
 
     outfile.close();
+}
+
+void Core::displayRTTlist(){
+
+    _RTTlist.removeAll(0);
+    //on enleve les premieres valeurs qui sont à 0 pour etre sur que les échanges de donné ont commencé.
+
+    int size = _RTTlist.size();
+    for(int i=0;i<size;i++){
+        qDebug() << _RTTlist.at(i);
+    }
 }
 
 

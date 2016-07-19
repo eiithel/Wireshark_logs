@@ -25,8 +25,13 @@ public:
     double compute_delay(double time1, double time2);//pb on se base sur les n° de séquence pour reconnaître un paquet mais il faudrait aussi vérifier que src <==> dst
     QList<double> getDelayList();
 
-    double getJitter(QList<double> delays);//Get Jitter.
-    double getAvgRTT(QList<double> delays); //Get Average Round Trip Time
+    //getters
+    double getJitter(QList<double> RTT);//Get Jitter.
+    double getAvgRTT(QList<double> RTT); //Get Average Round Trip Time
+    double getAvgDelay(QList<double> RTT);//Get Average delay
+
+
+    QList<double> getRTTlist();//return RTTlist
 
 
     double maxDelaySD(QList<double> delays);//Retard maximum de la source à la destination (en secondes).
@@ -35,11 +40,13 @@ public:
 
     void report(double Jitter, double AvgRTT);// Append the report of the session to a .csv file.
 
+    void displayRTTlist();
 
     //private:
     QMap<int, double> _map;//key seqNumber, value time
     QMap<int, double> _resmap;
     QMultiMap<int, double> _mmap;//utilisation d'un multimap à la place de map (plusieurs keys identiques)
+    QList<double> _RTTlist;
 
 };
 

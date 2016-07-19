@@ -12,6 +12,7 @@
 /*
  * programme permettant de faire l'analyse statistique des delays rencontrés lors de chaque séance.
  * Le programme se base sur un fichier .csv issu d'une session de capture wireshark.
+ * Il est important d'ajouter la colonne "Time delta from previous captured frame" dans l'analyse WireShark.
  * Le programme ajoute une ligne au fichier report.csv avec le Jitter (variance) et la moyenne des délais calculés.
  *
  * /!\ Pour utiliser le programme pour la première fois, mettre la directive de préprocesseur FIRST_TIME à "true".
@@ -37,20 +38,18 @@ int main(int argc, char *argv[])
         core.process_line(QString(line));
     }
 
-    QList<double> durations;
+    QList<double> RTTList = core.getRTTlist();
 
-    durations = core.getDelayList();
-    double jitter = core.getJitter(durations);
-    double avgRTT = core.getAvgRTT(durations);
+    double jitter = core.getJitter(RTTList);
+    double avgRTT = core.getAvgRTT(RTTList);
+    double avgdelay = core.getAvgDelay(RTTList);
 
 #if DEBUG
 
     //affichage des delays calculés sur la console
     qDebug() << "retards calculees:\n";
 
-    for(int i=0; i< durations.size();i++){
-        qDebug() << durations[i];
-    }
+    core.displayRTTlist();
 
     qDebug() << "\nDelay moyen:";
     qDebug() << avgRTT;
