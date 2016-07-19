@@ -30,7 +30,7 @@ int Core::extract_seqNumber(QString line){
     int seqNumber = -1;
     if((pos = line.indexOf("Seq")) > -1)
     {
-        seqNumber = line.mid(pos+4,1).toInt();
+        seqNumber = line.mid(pos+4,4).toInt();
     }
 
     return seqNumber;
@@ -40,14 +40,15 @@ double Core::extract_time(QString line){
 
     int pos = -1;
     double time =-1;
+    QStringList wordList;
+    QString temp;
+
     line.begin();
+    wordList=line.split(",");
+    temp = wordList.at(1);
+    temp.remove(QChar('"'));
 
-    if((pos = line.indexOf(",")) > -1)
-    {
-        time = line.mid(pos+2,12).toDouble();
-    }
-
-    return time;
+    return time = temp.toDouble();
 }
 
 

@@ -36,6 +36,8 @@ int main(int argc, char *argv[])
     {
         QByteArray line = file.readLine();
         core.process_line(QString(line));
+        int seq = core.extract_seqNumber(QString(line));
+        qDebug() << seq;
     }
 
     QList<double> RTTList = core.getRTTlist();
@@ -43,7 +45,9 @@ int main(int argc, char *argv[])
     double jitter = core.getJitter(RTTList);
     double avgDelay = core.getAvgDelay(RTTList);
 
+
 #if DEBUG
+
 
     //affichage des delays calculés sur la console
     qDebug() << "retards calculees:\n";
