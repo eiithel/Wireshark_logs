@@ -20,8 +20,6 @@ Core::Core()
  */
 void Core::process_line(QString line){
 
-    _mmap.insert(extractRTT(line),extract_time(line));
-
     _RTTlist.append(extractRTT(line));
 
 }
@@ -80,40 +78,6 @@ double Core::extractRTT(QString line){
     return RTT = temp.toDouble();
 
 }
-
-
-double Core::compute_delay(double time1, double time2){
-    double result;
-
-    if(time1 > time2){
-        result = time1-time2;
-    }else{
-        result = time2-time1;
-    }
-
-    return result;
-}
-
-QList<double> Core::getDelayList(){
-
-    _mmap.values();//si une clé est associée avec +sieurs valeurs valeurs, elles seront toutes dans la liste (a tester)
-
-    QList<double> timer = _mmap.values();
-    QList<double> durations;
-
-    timer.removeFirst();//on enleve le descriptif du fichier csv.
-
-    int size_max= timer.size() -1;
-
-    for (int i=0; i< size_max; i++){
-        double res = compute_delay(timer.at(i), timer.at((i+1)));
-        durations.push_back(res);
-        i++;
-    }
-    return durations;
-
-}
-
 
 double Core::getAvgRTT(QList<double> RTT){
     double sum = 0.0;

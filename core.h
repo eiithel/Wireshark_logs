@@ -16,14 +16,13 @@ class Core
 public:
     Core();
 
-    void process_line(QString line);
-    int extract_seqNumber(QString line);
-    double extract_time(QString line);
+    void process_line(QString line);//extract RTT value from csv input file
+    int extract_seqNumber(QString line);//extract time from csv input file
+    double extract_time(QString line);//extract time from csv input file
     double extractRTTi(QString line);//Get RTT initial (3-way TCP handshake)
     double extractRTT(QString line);//Get RTT ti ACK the segment
 
-    double compute_delay(double time1, double time2);//pb on se base sur les n° de séquence pour reconnaître un paquet mais il faudrait aussi vérifier que src <==> dst
-    QList<double> getDelayList();
+    double compute_delay(double time1, double time2);
 
     //getters
     double getJitter(QList<double> RTT);//Get Jitter.
@@ -40,10 +39,6 @@ public:
     //private:
 
     QList<double> _RTTlist;
-
-    QMap<int, double> _map;//key seqNumber, value time
-    QMap<int, double> _resmap;
-    QMultiMap<int, double> _mmap;//utilisation d'un multimap à la place de map (plusieurs keys identiques)
 
 };
 
