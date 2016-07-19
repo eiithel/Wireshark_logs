@@ -60,6 +60,7 @@ double Core::extractRTTi(QString line){
     line.begin();
 
     //to implement later
+    return RTTi;
 
 }
 
@@ -76,7 +77,7 @@ double Core::extractRTT(QString line){
     temp = wordList.at(2);
     temp.remove(QChar('"'));
 
-    RTT = temp.toDouble();
+    return RTT = temp.toDouble();
 
 }
 
