@@ -16,7 +16,8 @@ SOURCES += main.cpp \
 DISTFILES += \
     fortune \
     data \
-    dataV2
+    dataV2 \
+    report.csv
 
 HEADERS += \
     core.h

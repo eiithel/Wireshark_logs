@@ -6,6 +6,8 @@
 #include <QtMath>
 #include <QDebug>
 #include <QTextStream>
+#include <QStringList>
+#include <QChar>
 
 Core::Core()
 {
@@ -18,7 +20,7 @@ Core::Core()
  */
 void Core::process_line(QString line){
 
-    _mmap.insert(extract_seqNumber(line),extract_time(line));
+    _mmap.insert(extractRTT(line),extract_time(line));
 
 }
 
@@ -47,6 +49,36 @@ double Core::extract_time(QString line){
 
     return time;
 }
+
+
+double Core::extractRTTi(QString line){
+
+    int pos = -1;
+    double RTTi =-1;
+    line.begin();
+
+    //to implement later
+
+}
+
+
+
+double Core::extractRTT(QString line){
+
+    int pos = -1;
+    double RTT =-1;
+    QStringList wordList;
+    QString temp;
+
+    line.begin();
+    wordList=line.split(",");
+    temp = wordList.at(2);
+    temp.remove(QChar('"'));
+
+    RTT = temp.toDouble();
+
+}
+
 
 double Core::compute_delay(double time1, double time2){
     double result;
@@ -123,3 +155,5 @@ void Core::report(double Jitter, double AvgRTT){
 
     outfile.close();
 }
+
+

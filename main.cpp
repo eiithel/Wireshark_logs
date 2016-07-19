@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 
     Core core;
     QFile file;
-    file.setFileName("/home/ethel/qwt-5.2/test-ethel/wireshark/data");
+    file.setFileName("/home/ethel/qwt-5.2/test-ethel/wireshark/dataV2");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return 0;
 
