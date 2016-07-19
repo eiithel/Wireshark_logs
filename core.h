@@ -19,11 +19,15 @@ public:
     void process_line(QString line);
     int extract_seqNumber(QString line);
     double extract_time(QString line);
+    double extractRTTi(QString line);//Get RTT initial (3-way TCP handshake)
+    double extractRTT(QString line);//Get RTT ti ACK the segment
+
     double compute_delay(double time1, double time2);//pb on se base sur les n° de séquence pour reconnaître un paquet mais il faudrait aussi vérifier que src <==> dst
     QList<double> getDelayList();
 
     double getJitter(QList<double> delays);//Get Jitter.
     double getAvgRTT(QList<double> delays); //Get Average Round Trip Time
+
 
     double maxDelaySD(QList<double> delays);//Retard maximum de la source à la destination (en secondes).
 
