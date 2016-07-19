@@ -33,20 +33,17 @@ public:
 
     QList<double> getRTTlist();//return RTTlist
 
-
-    double maxDelaySD(QList<double> delays);//Retard maximum de la source à la destination (en secondes).
-
-    double maxDelayDS(QList<double> delays);//Retard maximum de la destination à la source (en secondes).
-
     void report(double Jitter, double AvgRTT);// Append the report of the session to a .csv file.
 
     void displayRTTlist();
 
     //private:
+
+    QList<double> _RTTlist;
+
     QMap<int, double> _map;//key seqNumber, value time
     QMap<int, double> _resmap;
     QMultiMap<int, double> _mmap;//utilisation d'un multimap à la place de map (plusieurs keys identiques)
-    QList<double> _RTTlist;
 
 };
 

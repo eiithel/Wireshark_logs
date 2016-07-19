@@ -127,7 +127,7 @@ double Core::getJitter(QList<double> RTT){
     double temp = 0;
     for(double a :RTT)
         temp += (mean-a)*(mean-a);
-    temp /=RTT.size();
+    temp = temp/RTT.size();
     return temp/2; //variance RTT/2 pour avoir jitter
 }
 
@@ -142,14 +142,6 @@ QList<double> Core::getRTTlist(){
     return _RTTlist;
 }
 
-
-double Core::maxDelaySD(QList<double> delays){
-
-}
-
-double Core::maxDelayDS(QList<double> delays){
-
-}
 
 void Core::report(double Jitter, double AvgRTT){
     QFile outfile(QString("/home/ethel/qwt-5.2/test-ethel/wireshark/report.csv"));

@@ -41,8 +41,7 @@ int main(int argc, char *argv[])
     QList<double> RTTList = core.getRTTlist();
 
     double jitter = core.getJitter(RTTList);
-    double avgRTT = core.getAvgRTT(RTTList);
-    double avgdelay = core.getAvgDelay(RTTList);
+    double avgDelay = core.getAvgDelay(RTTList);
 
 #if DEBUG
 
@@ -52,13 +51,13 @@ int main(int argc, char *argv[])
     core.displayRTTlist();
 
     qDebug() << "\nDelay moyen:";
-    qDebug() << avgRTT;
+    qDebug() << avgDelay;
     qDebug() << "\nJitter:";
     qDebug() << jitter;
 
 #endif
 
-    core.report(jitter, avgRTT);// save statistics to a "report.csv" file
+    core.report(jitter, avgDelay);// save statistics to a "report.csv" file
 
     file.close();
 
