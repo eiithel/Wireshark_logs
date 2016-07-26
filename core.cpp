@@ -6,7 +6,6 @@
 #include <QtMath>
 #include <QDebug>
 #include <QTextStream>
-#include <QStringList>
 #include <QChar>
 
 Core::Core()
@@ -14,15 +13,58 @@ Core::Core()
 
 }
 
+QStringList Core::splitLine(QString line){
+
+    QStringList wordList;
+
+    line.begin();
+    wordList=line.split(",");
+
+    //    int lenght = wordList.size();
+
+    //    for(int i=0; i<lenght; i++){
+    //        wordList.
+    //    }
+    //    temp.remove(QChar('"'));
+
+    wordList.replaceInStrings(QChar('"'), "");
+    return wordList;
+
+
+    //RTT = temp.toDouble();
+
+}
+
+
+
+
+
 /*
  *Cette fonction vient lire chaque ligne et extrait seqNumber
  *et time pour chaque trame. Elle stocke cette info dans une mmap.
  */
-void Core::process_line(QString line){
+void Core::process_line(QString line1 , QString line2){
 
-    _mmap.insert(extractRTT(line),extract_time(line));
+    if(!isResponseOf(line1, line2)){
+        return;
+    }
 
-    _RTTlist.append(extractRTT(line));
+    double time1, time2;
+    time1 = extract_time(line1);
+    time2 = extract_time(line2);
+
+    QStringList list1= splitLine(line1);
+    QStringList list2 =splitLine(line2);
+
+    QString tmp1 = list1.at(1);
+    QString tmp2 = list2.at(1);
+
+
+    double delay = compute_delay(tmp1.toDouble(), tmp2.toDouble());
+
+    //    _mmap.insert(extractRTT(line),extract_time(line));
+
+    //    _RTTlist.append(extractRTT(line));
 
 }
 
@@ -66,7 +108,6 @@ double Core::extractRTTi(QString line){
 
 double Core::extractRTT(QString line){
 
-    int pos = -1;
     double RTT =-1;
     QStringList wordList;
     QString temp;
@@ -171,5 +212,51 @@ void Core::displayRTTlist(){
         qDebug() << _RTTlist.at(i);
     }
 }
+
+/*Cette fonction retourne vraie si seq trame1 = ack trame2 ou seq trame2 = ack trame1
+ */
+bool Core::isResponseOf(QString line1, QString line2){
+
+    QStringList wordList1 , wordList2;
+    QString temp1, temp2, temp3, temp4;
+    int seq1, ack1, seq2, ack2;
+
+    line1.begin();
+    line2.begin();
+    wordList1=line1.split("=");
+    wordList2=line2.split("=");
+
+    temp1= wordList1.at(1);// "726 Ack" --> Seq
+    temp2= wordList1.at(2);// "2897 Win" --> Ack
+
+    temp3 =wordList2.at(1);// "726 Ack" --> Seq
+    temp4 =wordList2.at(2);// "2897 Win" --> Ack
+
+    wordList1=temp1.split(" ");
+    temp1 = wordList1.at(0);// "726" Seq
+    wordList1=temp2.split(" ");
+    temp2 = wordList1.at(0);// "2897" Ack
+
+    wordList2=temp3.split(" ");
+    temp3 = wordList2.at(0);// "726" Seq
+    wordList2=temp4.split(" ");
+    temp4 = wordList2.at(0);// "2897" Ack
+
+    temp1.remove(QChar('"'));
+    temp2.remove(QChar('"'));
+    temp3.remove(QChar('"'));
+    temp4.remove(QChar('"'));
+
+    seq1=temp1.toInt();//726
+    ack1=temp2.toInt();//2897
+    seq2=temp3.toInt();//2897
+    ack2=temp4.toInt();//726
+
+    if(seq1 == ack2 || seq2 == ack1){
+        return true;
+    }
+    return false;
+}
+
 
 

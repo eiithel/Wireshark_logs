@@ -11,7 +11,8 @@ CONFIG += c++11
 TEMPLATE = app
 
 SOURCES += main.cpp \
-    core.cpp
+    core.cpp \
+    tcp.cpp
 
 DISTFILES += \
     fortune \
@@ -20,4 +21,5 @@ DISTFILES += \
     report.csv
 
 HEADERS += \
-    core.h
+    core.h \
+    tcp.h

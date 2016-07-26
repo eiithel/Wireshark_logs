@@ -6,6 +6,8 @@
 #include <QVector>
 #include <QMap>
 #include <QMultiMap>
+#include <QStringList>
+
 
 #define DEBUG   true
 #define FIRST_TEST false //indique que c'est le début de l'analyse statistique.
@@ -16,7 +18,9 @@ class Core
 public:
     Core();
 
-    void process_line(QString line);
+    QStringList splitLine(QString line1);
+
+    void process_line(QString line1, QString line2);
     int extract_seqNumber(QString line);
     double extract_time(QString line);
     double extractRTTi(QString line);//Get RTT initial (3-way TCP handshake)
@@ -36,6 +40,8 @@ public:
     void report(double Jitter, double AvgRTT);// Append the report of the session to a .csv file.
 
     void displayRTTlist();
+
+    bool isResponseOf(QString line1, QString line2);
 
     //private:
 

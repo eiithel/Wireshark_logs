@@ -32,10 +32,27 @@ int main(int argc, char *argv[])
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return 0;
 
-    while (!file.atEnd())
+    QFile filecopy;
+    file.copy("/home/ethel/qwt-5.2/test-ethel/wireshark/dataV2", "/home/ethel/qwt-5.2/test-ethel/wireshark/dataV2copy");
+    filecopy.setFileName("/home/ethel/qwt-5.2/test-ethel/wireshark/dataV2copy");
+    if (!filecopy.open(QIODevice::ReadOnly | QIODevice::Text))
+        return 0;
+
+    for(int i =0; i<9; i++){
+        file.readLine();
+    }// on ne va pas traiter les 10 premieres lignes (établissement de la connection, etc pas très important.
+
+    for(int i=0; i<10;i++){
+        filecopy.readLine();
+    }//file et filecopy sont en decalage d'une ligne
+
+    while (!file.atEnd() && !filecopy.atEnd())
     {
-        QByteArray line = file.readLine();
-        core.process_line(QString(line));
+        QByteArray line1 = file.readLine();
+        QByteArray line2 = filecopy.readLine();
+
+        core.process_line(QString(line1), QString(line2));
+        //        core.isResponseOf(QString(line1), QString(line2));
     }
 
     QList<double> RTTList = core.getRTTlist();
@@ -60,6 +77,7 @@ int main(int argc, char *argv[])
     core.report(jitter, avgDelay);// save statistics to a "report.csv" file
 
     file.close();
+    filecopy.close();
 
     return a.exec();
 }
