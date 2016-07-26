@@ -14,6 +14,20 @@ Core::Core()
 
 }
 
+
+QStringList Core::splitLine(QString line){
+
+    QStringList FieldList;
+
+    line.begin();
+    FieldList=line.split(",");
+
+    FieldList.replaceInStrings(QChar('"'), "");
+    return FieldList;
+}
+
+
+
 /*
  *Cette fonction vient lire chaque ligne et extrait seqNumber
  *et time pour chaque trame. Elle stocke cette info dans une mmap.
@@ -21,6 +35,10 @@ Core::Core()
 void Core::process_line(QString line){
 
     _RTTlist.append(extractRTT(line));
+
+    QStringList list =splitLine(line);
+    double deltaTCP = extractDeltaTCP(list);
+    _DeltaTcpList.append(deltaTCP);
 
 }
 
@@ -77,10 +95,14 @@ double Core::extractRTT(QString line){
     temp.remove(QChar('"'));
 
     return RTT = temp.toDouble();
-
 }
 
-double Core::getAvgRTT(QList<double> RTT){
+double Core::extractDeltaTCP(QStringList list){
+    return (list.at(2)).toDouble();
+}
+
+
+double Core::getAvg(QList<double> RTT){
     double sum = 0.0;
     for(double a : RTT)
         sum += a;
@@ -89,7 +111,7 @@ double Core::getAvgRTT(QList<double> RTT){
 
 double Core::getJitter(QList<double> RTT){
 
-    double mean = getAvgRTT(RTT);
+    double mean = getAvg(RTT);
     double temp = 0;
     for(double a :RTT)
         temp += (mean-a)*(mean-a);
@@ -99,13 +121,17 @@ double Core::getJitter(QList<double> RTT){
 
 double Core::getAvgDelay(QList<double> RTT){
 
-    double mean = getAvgRTT(RTT);
+    double mean = getAvg(RTT);
     mean /=2; //on divise RTT par 2 pour avoir la latence
     return mean;
 }
 
 QList<double> Core::getRTTlist(){
     return _RTTlist;
+}
+
+QList<double> Core::getDeltaTcplist(){
+    return _DeltaTcpList;
 }
 
 
@@ -117,6 +143,7 @@ void Core::report(double Jitter, double AvgRTT){
         qDebug() << "Unable to create file";
         return;
     }
+
 
 #if FIRST_TEST
     outfile.write("Jitter,AvgRTT\n");
@@ -137,5 +164,37 @@ void Core::displayRTTlist(){
         qDebug() << _RTTlist.at(i);
     }
 }
+
+void Core::diplayDeltaTcpList(){
+
+    _DeltaTcpList.removeAll(0);
+    int size = _DeltaTcpList.size();
+    for(int i=0;i<size;i++){
+        qDebug() << _DeltaTcpList.at(i);
+    }
+}
+
+
+
+void Core::report(double DeltaTcp){
+
+    QFile outfile(QString("/home/ethel/qwt-5.2/test-ethel/wireshark/report.csv"));
+
+    if (!outfile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
+    {
+        qDebug() << "Unable to create file";
+        return;
+    }
+
+
+#if FIRST_TEST
+    outfile.write("DeltaTCP\n");
+#endif
+    QTextStream stream(&outfile);
+    stream << DeltaTcp << "\n";
+
+    outfile.close();
+}
+
 
 

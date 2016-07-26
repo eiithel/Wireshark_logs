@@ -17,7 +17,8 @@ DISTFILES += \
     fortune \
     data \
     dataV2 \
-    report.csv
+    report.csv \
+    dataV3
 
 HEADERS += \
     core.h

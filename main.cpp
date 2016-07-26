@@ -41,8 +41,11 @@ int main(int argc, char *argv[])
     }
 
     QList<double> RTTList = core.getRTTlist();
+    QList<double> DeltaTCPList = core.getDeltaTcplist();
 
-    double jitter = core.getJitter(RTTList);
+    double avgDelta = core.getAvg(DeltaTCPList);// avg moyen pour le tcp.time_delta
+
+    double jitter = core.getJitter(DeltaTCPList);
     double avgDelay = core.getAvgDelay(RTTList);
 
 
@@ -59,9 +62,12 @@ int main(int argc, char *argv[])
     qDebug() << "\nJitter:";
     qDebug() << jitter;
 
+    qDebug() << "affichage des DeltaTCP:";
+    core.diplayDeltaTcpList();//ok
+
 #endif
 
-    core.report(jitter, avgDelay);// save statistics to a "report.csv" file
+    core.report(jitter, avgDelta);// save statistics to a "report.csv" file
 
     file.close();
 
