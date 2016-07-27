@@ -18,7 +18,9 @@ DISTFILES += \
     data \
     dataV2 \
     report.csv \
-    dataV3
+    dataV3 \
+    DataV3.csv \
+    reportGlobal.csv
 
 HEADERS += \
     core.h

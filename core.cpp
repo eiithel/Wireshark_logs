@@ -9,6 +9,10 @@
 #include <QStringList>
 #include <QChar>
 
+
+int flag = -1;
+
+
 Core::Core()
 {
 
@@ -39,6 +43,10 @@ void Core::process_line(QString line){
     QStringList list =splitLine(line);
     double deltaTCP = extractDeltaTCP(list);
     _DeltaTcpList.append(deltaTCP);
+    double time = extract_time(line);
+
+    report(deltaTCP,time);
+
 
 }
 
@@ -56,17 +64,12 @@ int Core::extract_seqNumber(QString line){
 
 double Core::extract_time(QString line){
 
-    int pos = -1;
-    double time =-1;
-    QStringList wordList;
-    QString temp;
+    double i;
+    QStringList list =splitLine(line);
 
-    line.begin();
-    wordList=line.split(",");
-    temp = wordList.at(1);
-    temp.remove(QChar('"'));
+    i=(list.at(1)).toDouble();
 
-    return time = temp.toDouble();
+    return i;
 }
 
 
@@ -135,24 +138,6 @@ QList<double> Core::getDeltaTcplist(){
 }
 
 
-void Core::report(double Jitter, double AvgRTT){
-    QFile outfile(QString("/home/ethel/qwt-5.2/test-ethel/wireshark/report.csv"));
-
-    if (!outfile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
-    {
-        qDebug() << "Unable to create file";
-        return;
-    }
-
-
-#if FIRST_TEST
-    outfile.write("Jitter,AvgRTT\n");
-#endif
-    QTextStream stream(&outfile);
-    stream << Jitter << "," << AvgRTT << "\n";
-
-    outfile.close();
-}
 
 void Core::displayRTTlist(){
 
@@ -176,7 +161,8 @@ void Core::diplayDeltaTcpList(){
 
 
 
-void Core::report(double DeltaTcp){
+void Core::report(double DeltaTcp, double time){
+
 
     QFile outfile(QString("/home/ethel/qwt-5.2/test-ethel/wireshark/report.csv"));
 
@@ -188,13 +174,36 @@ void Core::report(double DeltaTcp){
 
 
 #if FIRST_TEST
-    outfile.write("DeltaTCP\n");
+
+
+    if(flag<0)
+    {
+        outfile.write("DeltaTCP, time\n");
+        flag=0;
+    }
 #endif
     QTextStream stream(&outfile);
-    stream << DeltaTcp << "\n";
+    stream << DeltaTcp << "," << QString::number(time, 'f', 6) << "\n";
 
     outfile.close();
 }
 
 
+void Core::reportGlobal(double Jitter, double DeltaTCP){
+    QFile outfile(QString("/home/ethel/qwt-5.2/test-ethel/wireshark/reportGlobal.csv"));
+
+    if (!outfile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
+    {
+        qDebug() << "Unable to create file";
+        return;
+    }
+
+#if FIRST_TEST
+    outfile.write("Jitter, DeltaTCP\n");
+#endif
+    QTextStream stream(&outfile);
+    stream << Jitter << "," << DeltaTCP << "\n";
+
+    outfile.close();
+}
 

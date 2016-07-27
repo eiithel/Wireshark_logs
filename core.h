@@ -7,9 +7,11 @@
 #include <QMap>
 #include <QMultiMap>
 #include <QStringList>
+#include <iomanip>
 
-#define DEBUG   true
-#define FIRST_TEST false //indique que c'est le début de l'analyse statistique.
+
+#define DEBUG   false
+#define FIRST_TEST true //indique que c'est le début de l'analyse statistique.
 
 
 class Core
@@ -36,8 +38,10 @@ public:
     QList<double> getRTTlist();//return RTTlist
     QList<double> getDeltaTcplist();//return DeltatTcplist
 
-    void report(double Jitter, double AvgRTT);// Append the report of the session to a .csv file.
-    void report(double DeltaTcp);// Append the DeltaTcp report to a .csv file.
+//    void report(double Jitter, double DeltaTcp);// Append the report of the session to a .csv file.
+    void report(double DeltaTcp, double time);// Append the DeltaTcp report to a .csv file.
+
+    void reportGlobal(double Jitter, double DeltaTcp);
 
     void displayRTTlist();
     void diplayDeltaTcpList();//ok
