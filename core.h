@@ -19,13 +19,12 @@ class Core
 public:
     Core();
 
-    QStringList splitLine(QString line);
+    QStringList splitLine(QString line);//Décompose la ligne en une liste de mots.
     void process_line(QString line);//extract RTT value from csv input file
     int extract_seqNumber(QString line);//extract time from csv input file
     double extract_time(QString line);//extract time from csv input file
-    double extractRTTi(QString line);//Get RTT initial (3-way TCP handshake)
     double extractRTT(QString line);//Get RTT ti ACK the segment
-    double extractDeltaTCP(QStringList list);
+    double extractDeltaTCP(QStringList list);//time in seconds since the last TCP segment in the current conversation
 
     double compute_delay(double time1, double time2);
 
@@ -41,10 +40,10 @@ public:
 //    void report(double Jitter, double DeltaTcp);// Append the report of the session to a .csv file.
     void report(double DeltaTcp, double time);// Append the DeltaTcp report to a .csv file.
 
-    void reportGlobal(double Jitter, double DeltaTcp);
+    void reportGlobal(double Jitter, double DeltaTcp);//Enregistre les valeurs globales issues d'une session de test
 
     void displayRTTlist();
-    void diplayDeltaTcpList();//ok
+    void diplayDeltaTcpList();
 
     //private:
 

@@ -10,7 +10,7 @@
 #include <QChar>
 
 
-int flag = -1;
+int flag = -1;//global value for debug
 
 
 Core::Core()
@@ -33,12 +33,11 @@ QStringList Core::splitLine(QString line){
 
 
 /*
- *Cette fonction vient lire chaque ligne et extrait seqNumber
- *et time pour chaque trame. Elle stocke cette info dans une mmap.
+ *Cette fonction vient lire chaque ligne et extrait time
+ *et DeltaTCP pour chaque trame. Elle stocke cette info dans une QStringList.
+ *Elle s'occupe aussi d'enregistrer les logs dans le fichier report.csv
  */
 void Core::process_line(QString line){
-
-    _RTTlist.append(extractRTT(line));
 
     QStringList list =splitLine(line);
     double deltaTCP = extractDeltaTCP(list);
@@ -64,23 +63,9 @@ int Core::extract_seqNumber(QString line){
 
 double Core::extract_time(QString line){
 
-    double i;
     QStringList list =splitLine(line);
 
-    i=(list.at(1)).toDouble();
-
-    return i;
-}
-
-
-double Core::extractRTTi(QString line){
-
-    int pos = -1;
-    double RTTi =-1;
-    line.begin();
-
-    //to implement later
-    return RTTi;
+    return (list.at(1)).toDouble();
 
 }
 
@@ -136,7 +121,6 @@ QList<double> Core::getRTTlist(){
 QList<double> Core::getDeltaTcplist(){
     return _DeltaTcpList;
 }
-
 
 
 void Core::displayRTTlist(){

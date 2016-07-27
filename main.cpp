@@ -28,6 +28,8 @@ int main(int argc, char *argv[])
 
     Core core;
     QFile file;
+
+    //L'analyse se fait sur le fichier DataV3.csv
     file.setFileName("/home/ethel/qwt-5.2/test-ethel/wireshark/DataV3.csv");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return 0;
@@ -36,8 +38,6 @@ int main(int argc, char *argv[])
     {
         QByteArray line = file.readLine();
         core.process_line(QString(line));
-        int seq = core.extract_seqNumber(QString(line));
-        qDebug() << seq;
     }
 
     QList<double> RTTList = core.getRTTlist();
@@ -46,21 +46,9 @@ int main(int argc, char *argv[])
     double avgDelta = core.getAvg(DeltaTCPList);// avg moyen pour le tcp.time_delta
 
     double jitter = core.getJitter(DeltaTCPList);
-    double avgDelay = core.getAvgDelay(RTTList);
 
 
 #if DEBUG
-
-
-    //affichage des delays calculés sur la console
-    qDebug() << "retards calculees:\n";
-
-    core.displayRTTlist();
-
-    qDebug() << "\nDelay moyen:";
-    qDebug() << avgDelay;
-    qDebug() << "\nJitter:";
-    qDebug() << jitter;
 
     qDebug() << "affichage des DeltaTCP:";
     core.diplayDeltaTcpList();//ok

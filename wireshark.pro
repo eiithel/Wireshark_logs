@@ -15,10 +15,7 @@ SOURCES += main.cpp \
 
 DISTFILES += \
     fortune \
-    data \
-    dataV2 \
     report.csv \
-    dataV3 \
     DataV3.csv \
     reportGlobal.csv
 
