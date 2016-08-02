@@ -37,8 +37,9 @@ public:
     QList<double> getRTTlist();//return RTTlist
     QList<double> getDeltaTcplist();//return DeltatTcplist
 
-//    void report(double Jitter, double DeltaTcp);// Append the report of the session to a .csv file.
+    //    void report(double Jitter, double DeltaTcp);// Append the report of the session to a .csv file.
     void report(double DeltaTcp, double time);// Append the DeltaTcp report to a .csv file.
+    void removeComa(QFile &file);//Replace points by comas.
 
     void reportGlobal(double Jitter, double DeltaTcp);//Enregistre les valeurs globales issues d'une session de test
 
@@ -49,6 +50,7 @@ public:
 
     QList<double> _RTTlist;
     QList<double> _DeltaTcpList;
+    QFile _reportFile;
 
 };
 

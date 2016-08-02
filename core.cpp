@@ -8,14 +8,16 @@
 #include <QTextStream>
 #include <QStringList>
 #include <QChar>
-
+#include <QByteArray>
+#include <algorithm>
+#include <string>
 
 int flag = -1;//global value for debug
 
 
 Core::Core()
 {
-
+    _reportFile.setFileName(QString("/home/ethel/qwt-5.2/test-ethel/wireshark/report.csv"));
 }
 
 
@@ -44,7 +46,7 @@ void Core::process_line(QString line){
     _DeltaTcpList.append(deltaTCP);
     double time = extract_time(line);
 
-    report(deltaTCP,time);
+    report(time,deltaTCP);
 
 
 }
@@ -81,12 +83,13 @@ double Core::extractRTT(QString line){
     wordList=line.split(",");
     temp = wordList.at(2);
     temp.remove(QChar('"'));
+    QStringList FieldList;
 
     return RTT = temp.toDouble();
 }
 
 double Core::extractDeltaTCP(QStringList list){
-    return (list.at(2)).toDouble();
+    return (list.at(3)).toDouble();
 }
 
 
@@ -150,7 +153,8 @@ void Core::report(double DeltaTcp, double time){
 
     QFile outfile(QString("/home/ethel/qwt-5.2/test-ethel/wireshark/report.csv"));
 
-    if (!outfile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
+
+    if (!_reportFile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
     {
         qDebug() << "Unable to create file";
         return;
@@ -162,14 +166,14 @@ void Core::report(double DeltaTcp, double time){
 
     if(flag<0)
     {
-        outfile.write("DeltaTCP, time\n");
+        _reportFile.write("Time; DeltaTCP\n");
         flag=0;
     }
 #endif
-    QTextStream stream(&outfile);
-    stream << DeltaTcp << "," << QString::number(time, 'f', 6) << "\n";
+    QTextStream stream(&_reportFile);
+    stream << DeltaTcp << ";" << QString::number(time, 'f', 6) << "\n";
 
-    outfile.close();
+    _reportFile.close();
 }
 
 
@@ -191,3 +195,35 @@ void Core::reportGlobal(double Jitter, double DeltaTCP){
     outfile.close();
 }
 
+void Core::removeComa(QFile &file){
+
+
+    QFile outfile(QString("/home/ethel/qwt-5.2/test-ethel/wireshark/report2.csv"));
+
+    if (!outfile.open(QIODevice::ReadWrite | QIODevice::Text))
+    {
+        qDebug() << "Unable to open file";
+        return;
+    }
+
+    if (!_reportFile.open(QIODevice::ReadWrite | QIODevice::Text | QIODevice::Append))
+    {
+        qDebug() << "Unable to open file";
+        return;
+    }
+
+
+    _reportFile.seek(0);
+    while (!_reportFile.atEnd())
+    {
+        QByteArray line = _reportFile.readLine();
+
+        std::string s=line.toStdString();
+        std::replace( s.begin(), s.end(), '.', ',');
+        QTextStream stream(&outfile);
+        stream << QString::fromStdString(s);
+    }
+
+    file.close();
+
+}

@@ -29,8 +29,8 @@ int main(int argc, char *argv[])
     Core core;
     QFile file;
 
-    //L'analyse se fait sur le fichier DataV3.csv
-    file.setFileName("/home/ethel/qwt-5.2/test-ethel/wireshark/DataV3.csv");
+    //L'analyse se fait sur le fichier DataV3.csv issu de wireshark
+    file.setFileName("/home/ethel/qwt-5.2/test-ethel/wireshark/patoS");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return 0;
 
@@ -39,6 +39,8 @@ int main(int argc, char *argv[])
         QByteArray line = file.readLine();
         core.process_line(QString(line));
     }
+
+    core.removeComa(core._reportFile);
 
     QList<double> RTTList = core.getRTTlist();
     QList<double> DeltaTCPList = core.getDeltaTcplist();
