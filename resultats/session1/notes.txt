@@ -1,0 +1,1 @@
+Pour StoClin, j'ai été obligé de retirer 2 valeurs qui étaient vraiment trop élévées (pour le delay).
