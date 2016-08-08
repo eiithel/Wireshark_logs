@@ -172,6 +172,7 @@ void Core::report(double DeltaTcp, double time){
 #endif
     QTextStream stream(&_reportFile);
     stream << DeltaTcp << ";" << QString::number(time, 'f', 6) << "\n";
+    //    stream << DeltaTcp << ";" << static_cast<double>(time) << "\n";
 
     _reportFile.close();
 }
