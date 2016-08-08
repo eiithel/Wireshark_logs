@@ -17,7 +17,7 @@ int flag = -1;//global value for debug
 
 Core::Core()
 {
-    _reportFile.setFileName(QString("/home/ethel/qwt-5.2/test-ethel/wireshark/report.csv"));
+    _reportFile.setFileName(QString("/home/ethel/qwt-5.2/test-ethel/wireshark/resultats/report.csv"));
 }
 
 
@@ -151,7 +151,7 @@ void Core::diplayDeltaTcpList(){
 void Core::report(double time, double DeltaTcp){
 
 
-    QFile outfile(QString("/home/ethel/qwt-5.2/test-ethel/wireshark/report.csv"));
+    QFile outfile(QString("/home/ethel/qwt-5.2/test-ethel/wireshark/resultats/report.csv"));
 
 
     if (!_reportFile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
@@ -179,7 +179,7 @@ void Core::report(double time, double DeltaTcp){
 
 
 void Core::reportGlobal(double Jitter, double DeltaTCP){
-    QFile outfile(QString("/home/ethel/qwt-5.2/test-ethel/wireshark/reportGlobal.csv"));
+    QFile outfile(QString("/home/ethel/qwt-5.2/test-ethel/wireshark/resultats/reportGlobal.csv"));
 
     if (!outfile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
     {
@@ -199,7 +199,7 @@ void Core::reportGlobal(double Jitter, double DeltaTCP){
 void Core::removeComa(QFile &file){
 
 
-    QFile outfile(QString("/home/ethel/qwt-5.2/test-ethel/wireshark/report2.csv"));
+    QFile outfile(QString("/home/ethel/qwt-5.2/test-ethel/wireshark/resultats/report2.csv"));
 
     if (!outfile.open(QIODevice::ReadWrite | QIODevice::Text))
     {
