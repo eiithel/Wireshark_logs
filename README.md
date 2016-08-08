@@ -7,10 +7,12 @@ The aim of the software is to compute Jitter from packets time of arrival.
 
 ![](https://github.com/eiithel/Wireshark_logs/blob/master/doc/images/wireshark_app.png)
 
-The application analyzes the file originated from wireshark and generate two outfiles that summarize the progress of the session.
+The application analyzes the file originated from wireshark `data.csv` and generate two outfiles that summarize the progress of the session. An example of `data.csv` file is located in /examples folder.
 
 * **report2.csv**  
 This file records all the TCP segments delays and the associated time since epoch. 
 
 * **reportGlobal.csv**  
 This file is a general overview of the progress of the session with average jitter and average latency.
+
+Both of these files are saved in /resultats folder.
