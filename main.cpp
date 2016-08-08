@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     QFile file;
 
     //L'analyse se fait sur le fichier DataV3.csv issu de wireshark
-    file.setFileName("/home/ethel/qwt-5.2/test-ethel/wireshark/patoS");
+    file.setFileName("/home/ethel/qwt-5.2/test-ethel/wireshark/clitos");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return 0;
 

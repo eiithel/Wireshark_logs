@@ -148,7 +148,7 @@ void Core::diplayDeltaTcpList(){
 
 
 
-void Core::report(double DeltaTcp, double time){
+void Core::report(double time, double DeltaTcp){
 
 
     QFile outfile(QString("/home/ethel/qwt-5.2/test-ethel/wireshark/report.csv"));
@@ -171,7 +171,9 @@ void Core::report(double DeltaTcp, double time){
     }
 #endif
     QTextStream stream(&_reportFile);
-    stream << DeltaTcp << ";" << QString::number(time, 'f', 6) << "\n";
+    stream << QString::number(time, 'f', 16) << ";" << DeltaTcp << "\n"; //1.47032e+09
+//    stream << DeltaTcp << ";" << static_cast<int>(time) << "\n";
+
 
     _reportFile.close();
 }
